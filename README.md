@@ -15,12 +15,12 @@ installation
 usage
 ================================================================================
 
-    nsolid-graphite [options] [grahpite-address [storage-address]]
+    nsolid-graphite [options] [graphite-address [storage-address]]
 
 where:
 
     graphite-address - the {address} of the graphite UDP server
-                     default: localhost:8125
+                     default: localhost:2003
 
     storage-address  - the {address} of the N|Solid storage server's API port
                      default: localhost:4000
@@ -33,7 +33,7 @@ options are:
     -v --version         - print the program version
     --app <app name>     - the N|Solid application name to monitor
                            default: monitor all applications
-    --prefix <value>     - prefix statsd metric names with the specified value
+    --prefix <value>     - prefix graphite metric names with the specified value
                            default: 'nsolid'
 
 Options are parsed with the [npm rc module][], and so options can be set in
