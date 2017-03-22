@@ -2,7 +2,7 @@ nsolid-graphite - a daemon that sends N|Solid metrics to graphite
 ================================================================================
 
 This package provides a daemon which will monitor [N|Solid][] runtimes and send
-the metrics from the runtimes to [graphited][].  The runtimes that are monitored
+the metrics from the runtimes to [graphite][].  The runtimes that are monitored
 are selected based on the command-line parameters.
 
 
@@ -35,8 +35,6 @@ options are:
                            default: monitor all applications
     --prefix <value>     - prefix statsd metric names with the specified value
                            default: 'nsolid'
-    --tags <boolean>     - append N|Solid tags to the metrics
-                           default: false
 
 Options are parsed with the [npm rc module][], and so options can be set in
 environment variables or files, as supported by rc.  For example, you can
@@ -54,17 +52,6 @@ If port is not specified, the default is 2003 for graphite-address, and 4000 for
 storage-address. If host is not specified, the default is localhost.  The host
 may be a hostname or IPv4 address.
 
-When the `--tags` option is used, the metrics sent to statsd will be modified
-to include the tags value associated with the N|Solid instance the metric
-originated from.  If the tags associated with an N|Solid instance are `tag-A`,
-`tag-B`, and `tag-C`, the metrics will have the following string appended to
-them:
-
-    |#tag-A,tag-B,tag-C
-
-Tag suffixes are an extension to graphite and not supported by all graphite servers.
-
-
 examples
 ================================================================================
 
@@ -72,12 +59,6 @@ examples
 
 Poll metrics from the N|Solid storage at `localhost:4000` and send them to the
 graphite server at `example.com:2003`.
-
-    nsolid-graphite --tags true -- : example.com
-
-Poll metrics every second from the N|Solid storage at `example.com:4000` and
-send them to the graphite server at `localhost:2003`.  Send the N|Solid
-application tags as suffixes on the metrics.
 
 docker
 ================================================================================
@@ -89,16 +70,15 @@ environment already using containers.
 
 Running the `nsolid-graphite` image
 
-    docker run -d --name="nsolid-graphite" nsolid-graphite --tags storage:4000 graphite:2003
+    docker run -d --name="nsolid-graphite" nsolid-graphite graphite:2003 storage:4000 
 
 Poll metrics every second from the N|Solid storage at `storage:4000` and send them to the
-graphite server at `graphite:2003`. It also sends the N|Solid application tags as suffixes
-on the metrics.
+graphite server at `graphite:2003`. 
 
 `nsolid-graphite` also supports using environment variables for providing the N|Solid
 Storage and graphite endpoints
 
-    docker run -d --name="nsolid-graphite" -e NSOLID_ADDRESS=storage:4000 -e STATSD_ADDRESS=graphite:2003 nsolid-graphite
+    docker run -d --name="nsolid-graphite" -e NSOLID_ADDRESS=storage:4000 -e GRAPHITE_ADDRESS=graphite:2003 nsolid-graphite
 
 
 
@@ -140,7 +120,6 @@ fashion before being used in a graphite metric
 The values which are affected are:
 
 * N|Solid application name
-* N|Solid tags
 
 
 contributing
@@ -156,6 +135,11 @@ Authors and Contributors
 
 <table><tbody>
   <tr>
+    <th align="left">Joe Doyle</th>
+    <td><a href="https://github.com/joedoyle23">GitHub/JoeDoyle23</a></td>
+    <td><a href="https://twitter.com/JoeDoyle23">Twitter/@JoeDoyle23</a></td>
+  </tr>
+  <tr>
     <th align="left">Patrick Mueller</th>
     <td><a href="https://github.com/pmuellr">GitHub/pmuellr</a></td>
     <td><a href="https://twitter.com/pmuellr">Twitter/@pmuellr</a></td>
@@ -164,11 +148,6 @@ Authors and Contributors
     <th align="left">Dave Olszewski</th>
     <td><a href="https://github.com/cxreg">GitHub/cxreg</a></td>
     <td><a href="https://twitter.com/cxreg">Twitter/@cxreg</a></td>
-  </tr>
-  <tr>
-    <th align="left">Joe Doyle</th>
-    <td><a href="https://github.com/joedoyle23">GitHub/JoeDoyle23</a></td>
-    <td><a href="https://twitter.com/JoeDoyle23">Twitter/@JoeDoyle23</a></td>
   </tr>
   <tr>
     <th align="left">Johannes Würbach</th>
@@ -181,7 +160,7 @@ Authors and Contributors
 License & Copyright
 ================================================================================
 
-**nsolid-graphite** is Copyright (c) 2016-2017 NodeSource and licensed under the
+**nsolid-graphite** is Copyright (c) 2017 NodeSource and licensed under the
 MIT license. All rights not explicitly granted in the MIT license are reserved.
 See the included [LICENSE.md][] file for more details.
 
