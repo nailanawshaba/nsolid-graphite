@@ -67,7 +67,7 @@ function runTests () {
     })
   })
 
-  test(`${ThisFile} bad statsd port`, function (t) {
+  test(`${ThisFile} bad graphite port`, function (t) {
     runApp('localhost:x', 2000, (err, stdout, stderr) => {
       t.notEqual(err, null, 'err should not be null')
 
