@@ -1,10 +1,9 @@
 nsolid-graphite - a daemon that sends N|Solid metrics to graphite
 ================================================================================
 
-This package provides a daemon which will monitor [N|Solid][] runtimes and send
-the metrics from the runtimes to [graphite][].  The runtimes that are monitored
-are selected based on the command-line parameters.
-
+This package provides a daemon which will monitor [N|Solid][] Storage and send
+the metrics from the N|Solid runtimes to [graphite][] via the Graphite protocol
+over UDP.
 
 installation
 ================================================================================
@@ -85,27 +84,17 @@ Storage and graphite endpoints
 graphite metric names
 ================================================================================
 
-The association of N|Solid metrics to graphite metrics is as follows:
+N|Solid gathers an extensive list of metrics from the N|Solid Runtime to provide
+the greatest insight into your Node.js applications.
 
-N-Solid metric   | graphite metric
----------------  | -------------
-activeHandles    | {prefix}.{app}.process.activeHandles
-activeRequests   | {prefix}.{app}.process.activeRequests
-cpu              | {prefix}.{app}.process.cpu
-cpuSpeed         | {prefix}.{app}.system.cpuSpeed
-freeMem          | {prefix}.{app}.system.freeMem
-heapTotal        | {prefix}.{app}.process.heapTotal
-heapUsed         | {prefix}.{app}.process.heapUsed
-load15m          | {prefix}.{app}.system.load15m
-load1m           | {prefix}.{app}.system.load1m
-load5m           | {prefix}.{app}.system.load5m
-rss              | {prefix}.{app}.process.rss
+The full list of metrics with descriptions can be found at [N|Solid Metrics][].
+
+The default format of the metric names is: 
+
+{prefix}.{app}.{hostname}.{statName}
 
 The `{prefix}` value can be specified via command-line option, and defaults to
 `nsolid`.  The `{app}` value is the name of the N|Solid application.
-
-For more information about the N|Solid metrics, see the
-[N|Solid Process and System Statistics documentation][].
 
 
 string value normalization
@@ -120,6 +109,7 @@ fashion before being used in a graphite metric
 The values which are affected are:
 
 * N|Solid application name
+* N|Solid hostname
 
 
 contributing
@@ -168,7 +158,7 @@ See the included [LICENSE.md][] file for more details.
 [N|Solid]: https://nodesource.com/products/nsolid
 [graphite]: https://graphiteapp.org/
 [npm rc module]: https://www.npmjs.com/package/rc
-[N|Solid Process and System Statistics documentation]: https://docs.nodesource.com/docs/using-the-cli
 [issue at GitHub]: https://github.com/nodesource/nsolid-graphite/issues
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [LICENSE.md]: LICENSE.md
+[N|Solid Metrics]: https://docs.nodesource.com/nsolid/2.2/docs#metrics-in-detail
